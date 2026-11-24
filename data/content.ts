@@ -390,7 +390,7 @@ export const writing: { title: string; kind: string; href?: string }[] = [
 
 export const skills: Record<string, string[]> = {
   "Retrieval & GenAI": ["RAG · GraphRAG", "LangGraph · LangChain", "Elasticsearch · BM25", "FAISS · embeddings", "Multi-agent systems"],
-  "Modelling": ["PyTorch", "TensorFlow / Keras", "scikit-learn", "Recommender systems", "CNN · U-Net · VAE"],
+  "Modelling": ["PyTorch", "Hugging Face · LoRA fine-tuning", "Time-series LLMs (OpenTSLM)", "TensorFlow / Keras", "scikit-learn", "Recommender systems", "CNN · U-Net · VAE"],
   "Knowledge graphs": ["Neo4j · Cypher", "RDF · OWL", "SPARQL · SHACL"],
   "Explainability": ["LIME", "SHAP", "CAM / Grad-CAM"],
   "Engineering & MLOps": ["FastAPI", "Docker · Kubernetes", "MLflow · DVC · Airflow", "CI/CD · PyTest", "AWS"],
