@@ -135,8 +135,28 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: "lime-ecg",
+    slug: "neural-compression",
     featured: true,
+    kicker: "Representation learning · Data compression",
+    title: "Neural compression with autoencoders",
+    summary:
+      "Four convolutional autoencoders that encode 112,800 handwritten characters into a compact latent code, shrinking the in-memory footprint from 84.3 MB to 13.8 MB while reconstructing the images almost losslessly.",
+    problem:
+      "Large image datasets cost memory and bandwidth. The goal was an architecture that compresses data into a lower-dimensional representation while losing as little information as possible, so the compressed data can be reused downstream. Here, compression means dimensionality and memory footprint, not file size on disk.",
+    approach: [
+      "Data: EMNIST-Balanced, 28×28 grey-scale digits plus upper- and lower-case letters, chosen for its diverse character shapes.",
+      "Encoder: strided Conv2D layers instead of MaxPooling2D, so the network learns how to downsample and keeps the spatial detail needed for accurate reconstruction.",
+      "Decoder: Conv2DTranspose instead of UpSampling2D, giving learnable upsampling, higher-quality reconstructions and fewer artefacts.",
+      "Experiment: a shared encoder with four different decoder designs, each evaluated on training/validation loss, MSE, SSIM and PSNR, both as a full autoencoder and as a standalone decoder (a consistency check on the architecture).",
+      "Model 01 performed best, with the lowest losses and the highest SSIM and PSNR; Models 03 and 04 were competitive and Model 02 trailed.",
+    ],
+    result:
+      "Encoded dataset of ≈13.77 MB versus ≈84.34 MB as raw uint8 (6.1× smaller) and ≈337.35 MB as float32 model input (≈24× smaller), at SSIM 0.98. The trained encoder and decoder models are saved for reuse or fine-tuning on similar data. Topic proposed by Dr. Peter Steinbach (Helmholtz AI).",
+    stack: ["TensorFlow", "Keras", "Autoencoders", "Conv2D / Conv2DTranspose", "SSIM · PSNR"],
+    links: [{ label: "GitHub", href: "https://github.com/mdhabibi/Neural-Compression-with-Autoencoders" }],
+  },
+  {
+    slug: "lime-ecg",
     kicker: "Explainable AI · Time series · Open source",
     title: "LIME for time series: explaining an ECG classifier",
     summary:
@@ -208,17 +228,6 @@ export const projects: Project[] = [
     result: "94% accuracy on 8 cell types · segmented dataset published on Kaggle.",
     stack: ["FastAPI", "Docker", "Kubernetes", "MLflow", "Airflow"],
     links: [{ label: "GitHub", href: "https://github.com/DataScientest-Studio/apr24_bds_int_blood_cells" }],
-  },
-  {
-    slug: "neural-compression",
-    kicker: "Representation learning",
-    title: "Neural compression with autoencoders",
-    summary: "Four convolutional autoencoders on 112,800 EMNIST images.",
-    problem: "Can a learned code replace raw pixels without losing recognisability?",
-    approach: ["Shared strided-conv encoder with four decoder variants; MSE, SSIM, PSNR evaluation."],
-    result: "84.3 MB → 13.8 MB in memory (6.1×) at SSIM 0.98.",
-    stack: ["Keras", "TensorFlow"],
-    links: [{ label: "GitHub", href: "https://github.com/mdhabibi/Neural-Compression-with-Autoencoders" }],
   },
   {
     slug: "nucleus-unet",
