@@ -201,21 +201,27 @@ export const projects: Project[] = [
   {
     slug: "phd-bremsstrahlung",
     featured: true,
-    kicker: "Doctoral research · HPC",
-    title: "Suppressing bremsstrahlung in laser–plasma simulations",
+    kicker: "Ph.D. · Scientific ML & data science · HPC",
+    title: "Bremsstrahlung suppression in laser–plasma simulations",
     summary:
-      "Derived from QED how extreme quasi-static fields suppress electron radiation in petawatt-laser plasmas, and implemented the model as a module in EPOCH, the widely used particle-in-cell code.",
+      "Doctoral research at HHU Düsseldorf with HZDR and European XFEL: a QED-derived model added to a production particle-in-cell code, tuned with Bayesian optimisation, run on HPC clusters and analysed as a large-scale data-science problem. It cut predicted photon counts by 50.4% against the standard model.",
     problem:
-      "Standard simulation codes could not account for field-induced suppression of bremsstrahlung, biasing predicted emission.",
+      "When a petawatt laser hits a plasma micro-channel, electrons accelerate to hundreds of MeV inside extreme quasi-static fields, and the radiation they emit (bremsstrahlung) is what experiments measure. Standard simulation codes computed that emission as if the fields weren't there. The task was to quantify how much the fields suppress emission, then build that into a production simulator without breaking it.",
     approach: [
-      "First electric-and-magnetic suppression (EMS) model for bremsstrahlung in PIC codes.",
-      "Implemented in Modern Fortran with MPI; Bayesian optimisation for parameter studies.",
+      "Modelling: derived a suppression factor from QED that depends on the local electric and magnetic field and the electron energy. This is the first combined electric-and-magnetic suppression (EMS) model for bremsstrahlung in PIC codes, and the magnetic effect had never been shown in a plasma context.",
+      "Optimisation: engineered Bayesian optimisation for the simulation and parameter studies, improving computational efficiency by 35%.",
+      "Production engineering: prototyped in Octave, then implemented in Modern Fortran with MPI as a module inside EPOCH, the PIC code used by laser–plasma groups worldwide, so it runs at scale on shared HPC clusters.",
+      "Data pipelines: built and maintained automated ETL pipelines in Python and Apache Airflow to move large simulation outputs into analysis, with PyTest, GitHub Actions and CI/CD for reliable delivery.",
+      "Data science and analysis: benchmarked models against baselines with SciPy and NumPy; analysed photon spectra, cumulative photon counts, 2-D emission-event densities, electron phase space and individual particle trajectories, plus the Lorentz-force decomposition along them.",
+      "Insight: photons below about 10 MeV come mainly from electrons above 95 MeV, peaking around 185 fs into the interaction. That is exactly the population in the strongest fields, so it is the one the standard model over-estimates most.",
     ],
-    result: "Dr. rer. nat., magna cum laude (2023); published in Physics of Plasmas.",
-    stack: ["Modern Fortran", "MPI", "EPOCH", "Python", "Bayesian optimisation"],
+    result:
+      "With suppression on, the accumulated photon count fell by 50.44% against baseline EPOCH, with spectra diverging clearly below about 3 MeV. The work earned a Dr. rer. nat. magna cum laude (2023), produced three peer-reviewed publications including Physics of Plasmas (2023), and left an EPOCH module. In industry terms, it was adding a validated correction to a well-tested production system and making it reproducible on shared infrastructure.",
+    stack: ["Bayesian optimisation", "Python", "NumPy · SciPy", "Apache Airflow", "Modern Fortran", "MPI", "EPOCH (PIC)", "PyTest · CI/CD"],
     links: [
       { label: "Paper", href: "https://doi.org/10.1063/5.0167288" },
       { label: "Thesis repo", href: "https://github.com/mdhabibi/My_PhD_Thesis" },
+      { label: "EPOCH code", href: "https://github.com/Warwick-Plasma/epoch" },
     ],
   },
   {
