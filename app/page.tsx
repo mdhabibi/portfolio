@@ -99,9 +99,11 @@ export default function Home() {
         <div className="wrap">
           <div className="head"><div><div className="mono">Writing &amp; films</div><h2>Explaining production AI</h2></div></div>
           <div className="newsletter">
-            <div>
-              <div className="mono">{profile.newsletter.name}</div>
-              <h3>Get new articles in your LinkedIn feed</h3>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className="nl-logo" src="/newsletter.webp" alt="" />
+            <div style={{ flex: 1, minWidth: 260 }}>
+              <div className="mono">Weekly newsletter on LinkedIn</div>
+              <h3>{profile.newsletter.name}</h3>
               <p>{profile.newsletter.blurb}</p>
             </div>
             <a className="btn libtn" href={profile.newsletter.href} target="_blank" rel="noreferrer">Subscribe on LinkedIn ↗</a>
@@ -110,7 +112,7 @@ export default function Home() {
             <div className="cards" style={{ marginTop: 16 }}>
               {liveWriting.map((w) => (
                 <a className="card" href={w.href} target="_blank" rel="noreferrer" key={w.title}>
-                  <div className="body"><div className="mono">{w.kind}</div><h3>{w.title}</h3><span className="go">Open ↗</span></div>
+                  <div className="body"><div className="mono">{w.kind}{w.topic && ` · ${w.topic}`}</div><h3>{w.title}</h3><span className="go">{w.kind === "Video" ? "Watch" : "Read on LinkedIn"} ↗</span></div>
                 </a>
               ))}
             </div>

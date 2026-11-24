@@ -144,3 +144,5 @@ footer .wrap { display: flex; justify-content: space-between; }
 .newsletter h3 { font-size: 24px; font-weight: 600; letter-spacing: -.02em; margin: 8px 0 6px; }
 .newsletter p { color: var(--muted); max-width: 620px; }
 .btn.libtn { background: #0A66C2; border-color: #0A66C2; color: #fff; border-radius: 999px; }
+.nl-logo { width: 96px; height: 96px; border-radius: 14px; border: 1px solid var(--line); }
+.newsletter h3 { font-size: 28px; }

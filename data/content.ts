@@ -17,8 +17,8 @@ export const profile = {
     Kaggle: "https://www.kaggle.com/mahdihabibi",
   } as Record<string, string>,
   newsletter: {
-    name: "LinkedIn newsletter",
-    blurb: "Production-focused articles on retrieval, RAG, recommender systems, knowledge graphs and explainable AI.",
+    name: "Silent Failures in AI",
+    blurb: "AI rarely crashes. It fails quietly. Weekly: a silent failure in ML, RAG, knowledge graphs or agents, and a tested fix.",
     href: "https://www.linkedin.com/build-relation/newsletter-follow?entityUrn=7529523751579873280",
   },
   stats: [
@@ -459,11 +459,12 @@ export const publications = [
   },
 ];
 
-// Placeholders until real links are added. Set `href` to publish a card.
-export const writing: { title: string; kind: string; href?: string }[] = [
-  { title: "Deleted, but Still Retrievable", kind: "LinkedIn article" },
-  { title: "The Case of the 19 Customers", kind: "Animated film" },
-  { title: "BeatLens demo", kind: "Video", href: "https://youtu.be/QsP-ktHCz0s" },
+// Newsletter editions and other writing. Only entries with `href` are shown.
+export const writing: { title: string; kind: string; topic?: string; href?: string }[] = [
+  { title: "You Deleted the Poisoned Memory. Your Assistant Still Remembers.", kind: "Edition", topic: "Agent memory · Unlearning", href: "https://www.linkedin.com/pulse/you-deleted-poisoned-memory-your-assistant-still-remembers-habibi-5z25e" },
+  { title: "A → B → C Isn't a Fact: When Multi-Hop Paths Lie", kind: "Edition", topic: "Knowledge graphs · GraphRAG", href: "https://www.linkedin.com/pulse/b-c-isnt-fact-when-multi-hop-paths-lie-dr-mahdi-habibi-fysre" },
+  { title: "Two Agents, One Graph, Zero New Evidence", kind: "Edition", topic: "Multi-agent systems", href: "https://www.linkedin.com/pulse/two-agents-one-graph-zero-new-evidence-circular-shared-habibi-aswwe" },
+  { title: "BeatLens demo", kind: "Video", topic: "Time-series LLMs · XAI", href: "https://youtu.be/QsP-ktHCz0s" },
 ];
 
 export const skills: Record<string, string[]> = {
