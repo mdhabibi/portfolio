@@ -59,6 +59,7 @@ export type Project = {
 // Banner images live in public/work/<slug>.webp; projects without one get a typographic banner.
 export const banners: Record<string, string> = Object.fromEntries(["dealcircle","telescopeml","lime-ecg","phd-bremsstrahlung","malaria","blood-cells-mlops","neural-compression","nucleus-unet","movie-recommender","llm-search-handbook"].map((s) => [s, `/work/${s}.webp`]));
 banners["dealcircle"] = "/work/dealcircle.svg";
+banners["telescopeml"] = "/work/telescopeml.svg";
 
 export const projects: Project[] = [
   {
@@ -86,21 +87,26 @@ export const projects: Project[] = [
     slug: "telescopeml",
     featured: true,
     kicker: "Open source · Explainable AI · NASA Ames",
-    title: "TelescopeML — explaining CNNs on telescope spectra",
+    title: "TelescopeML: explaining CNNs on telescope spectra",
     summary:
-      "An end-to-end Python package that predicts atmospheric parameters of exoplanets and brown dwarfs — and, through the module I designed, explains which parts of a spectrum drove each prediction.",
+      "An end-to-end Python package, developed with NASA Ames Research Center, that trains CNNs on spectra of exoplanets and brown dwarfs, predicts their atmospheric parameters with uncertainty and, through the LIMEXplainer module I designed, shows which parts of a spectrum drove each prediction.",
     problem:
-      "Deep models predict atmospheric parameters well, but astronomers need to know which spectral features the model relies on before trusting it.",
+      "Next-generation observatories will produce far more spectra than astronomers can fit by hand. Trained CNNs can infer temperature, gravity, metallicity and C/O ratio in milliseconds instead of slow grid-based retrieval, but a model that can't be interrogated is of little use to a scientist. My job was to make the predictions auditable.",
     approach: [
-      "Designed and implemented LIMEXplainer, the package's explainability module.",
-      "Integrated with the training, statistical-reporting and visualisation pipeline under CI/CD.",
+      "Package architecture: DataMaster (loading, splitting, scaling, feature engineering), DeepTrainer (tuned TensorFlow CNNs), Predictor (observational spectra → parameters with uncertainty), StatVisAnalyzer (χ² tests, confidence intervals, reporting) and LIMEXplainer, my module.",
+      "Spectra are neither images nor tables: neighbouring wavelengths are strongly correlated, and the meaningful unit is a band, not a pixel. I redesigned LIME's perturbation step around contiguous wavelength segments.",
+      "LIMEXplainer pipeline: segment the spectrum into bands → perturb by masking bands (mean, zero or noise) → predict each variant with the CNN → weight by proximity (configurable kernel width) → fit a sparse linear surrogate whose coefficients give per-band importance → aggregate across instances to find bands that consistently drive a parameter.",
+      "One explanation per predicted parameter, with bands that raise or lower the estimate. Because the influential bands line up with physically meaningful spectral features, the plots also serve as a sanity check on what the network has learned.",
+      "Collaborated through GitHub code review and CI/CD with the NASA Ames team (HWO AI/ML working group).",
     ],
-    result: "Published in the Journal of Open Source Software (2024) and distributed on PyPI.",
-    stack: ["Python", "TensorFlow", "LIME", "NumPy", "CI/CD"],
+    result:
+      "Published in the Journal of Open Source Software (2024; arXiv:2407.16917), released on PyPI under GPL-3.0, and part of the Habitable Worlds Observatory AI/ML working group's tooling.",
+    stack: ["Python", "TensorFlow", "CNN", "LIME", "Bayesian optimisation", "CI/CD"],
     links: [
       { label: "JOSS paper", href: "https://doi.org/10.21105/joss.06346" },
       { label: "GitHub", href: "https://github.com/EhsanGharibNezhad/TelescopeML" },
       { label: "PyPI", href: "https://pypi.org/project/TelescopeML/" },
+      { label: "Zenodo DOI", href: "https://doi.org/10.5281/zenodo.10183099" },
     ],
   },
   {
