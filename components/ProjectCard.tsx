@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { Project } from "@/data/content";
+import { banners, type Project } from "@/data/content";
 
 /** Whole card links to the case study; repo/paper links sit underneath. */
 export function ProjectCard({ p, img, compact }: { p: Project; img: boolean; compact?: boolean }) {
@@ -7,7 +7,7 @@ export function ProjectCard({ p, img, compact }: { p: Project; img: boolean; com
     <div className="card">
       <Link href={`/work/${p.slug}/`} aria-label={p.title}>
         {img ? (
-          <div className="banner" style={{ backgroundImage: `url(/work/${p.slug}.webp)` }} />
+          <div className="banner" style={{ backgroundImage: `url(${banners[p.slug]})` }} />
         ) : (
           <div className="banner ph">{p.title.split(/[—:]/)[0].trim()}</div>
         )}

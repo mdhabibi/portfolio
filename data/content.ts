@@ -57,26 +57,29 @@ export type Project = {
 };
 
 // Banner images live in public/work/<slug>.webp; projects without one get a typographic banner.
-export const banners = new Set(["dealcircle","telescopeml","lime-ecg","phd-bremsstrahlung","malaria","blood-cells-mlops","neural-compression","nucleus-unet","movie-recommender","llm-search-handbook"]);
+export const banners: Record<string, string> = Object.fromEntries(["dealcircle","telescopeml","lime-ecg","phd-bremsstrahlung","malaria","blood-cells-mlops","neural-compression","nucleus-unet","movie-recommender","llm-search-handbook"].map((s) => [s, `/work/${s}.webp`]));
+banners["dealcircle"] = "/work/dealcircle.svg";
 
 export const projects: Project[] = [
   {
     slug: "dealcircle",
     featured: true,
     kicker: "Production · Current role",
-    title: "Deal matching & hybrid search for M&A",
+    title: "AI deal matching for M&A: sellers, advisors and buyers",
     summary:
-      "The recommendation, search and enrichment layer that decides which deal is shown to which buyer on DealCircle's platform.",
+      "The recommendation, hybrid-search and data-enrichment layer that connects companies for sale and their M&A advisors with the right strategic and financial buyers on DealCircle's platform.",
     problem:
-      "A deal marketplace is the hardest kind of recommender problem: every item is unique and sold once, interactions are rare and expensive, and a wrong match wastes a busy person's time on both sides. Classic collaborative filtering has almost nothing to work with.",
+      "M&A deal sourcing is a sparse, high-stakes, three-sided matching problem. Every deal is unique and sold once, interactions are rare, and company data is scattered across the web. A wrong match costs advisors and buyers real time, so recommendations must be precise, relationship-aware and explainable to deal teams.",
     approach: [
-      "Hybrid retrieval combining lexical (BM25), sparse and dense-vector search in Elasticsearch, with FAISS for content-based filtering.",
-      "GraphRAG recommenders on Neo4j that combine knowledge graphs, RAG pipelines and hybrid content/collaborative filtering for relationship-aware matching.",
-      "A multi-agent enrichment platform for web discovery, crawling, text extraction and company profiling that feeds richer signals to deal teams.",
+      "Recommendation systems: lead development of AI-powered recommenders for M&A deal sourcing, improving deal evaluation, strategic alignment and data-driven decision-making.",
+      "Hybrid retrieval: architect scalable retrieval combining lexical, sparse, semantic and dense-vector search to power generative-AI recommendation workflows and content-based filtering with FAISS.",
+      "Multi-agent enrichment: lead end-to-end development of a data-enrichment platform whose agents handle data sourcing, web discovery, crawling, text extraction and multimodal company profiling.",
+      "Elasticsearch hybrid search: design and deploy systems combining BM25 and dense-vector fields for precise, context-aware deal discovery and shortlisting.",
+      "Knowledge graph + GraphRAG: build GraphRAG recommenders in Neo4j that combine a knowledge graph of companies, sellers, advisors and buyers with RAG pipelines and hybrid content-based and collaborative filtering, for relationship-aware matching and opportunity discovery.",
     ],
     result:
-      "Relationship-aware deal matching and faster, better-informed shortlisting and due diligence for deal teams.",
-    stack: ["Elasticsearch", "FAISS", "Neo4j", "LangGraph", "LangChain", "Python", "FastAPI"],
+      "Richer company insights for deal teams, more efficient due diligence, and relationship-aware matching that surfaces the right buyers for each opportunity.",
+    stack: ["Neo4j", "GraphRAG", "Elasticsearch", "FAISS", "LangGraph", "LangChain", "Python", "Machine learning"],
     links: [{ label: "DealCircle", href: "https://www.dealcircle.com/" }],
   },
   {

@@ -27,9 +27,9 @@ export default async function Case({ params }: { params: Promise<{ slug: string 
         <div className="mono reveal" style={{ marginTop: 40 }}>{p.kicker}</div>
         <h1 className="reveal d1">{p.title}</h1>
         <p className="lead reveal d2">{p.summary}</p>
-        {banners.has(p.slug) && (
+        {!!banners[p.slug] && (
           // eslint-disable-next-line @next/next/no-img-element
-          <div className="case-banner reveal d3"><img src={`/work/${p.slug}.webp`} alt={p.title} /></div>
+          <div className="case-banner reveal d3"><img src={banners[p.slug]} alt={p.title} /></div>
         )}
         <div className="case-grid reveal d3">
           <article>

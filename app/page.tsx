@@ -53,11 +53,11 @@ export default function Home() {
         <div className="wrap">
           <div className="head"><div><div className="mono">Selected work</div><h2>Case studies</h2></div><span className="muted">Problem → approach → result</span></div>
           <div className="cards">
-            {featured.map((p) => <ProjectCard key={p.slug} p={p} img={banners.has(p.slug)} />)}
+            {featured.map((p) => <ProjectCard key={p.slug} p={p} img={!!banners[p.slug]} />)}
           </div>
           <div className="head" style={{ marginTop: 72 }}><div><div className="mono">More projects</div></div></div>
           <div className="cards">
-            {more.map((p) => <ProjectCard key={p.slug} p={p} img={banners.has(p.slug)} compact />)}
+            {more.map((p) => <ProjectCard key={p.slug} p={p} img={!!banners[p.slug]} compact />)}
           </div>
         </div>
       </section>
