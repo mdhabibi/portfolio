@@ -57,7 +57,7 @@ export type Project = {
 };
 
 // Banner images live in public/work/<slug>.webp; projects without one get a typographic banner.
-export const banners: Record<string, string> = Object.fromEntries(["dealcircle","telescopeml","knowledge-graphs-book","beatlens","lime-ecg","phd-bremsstrahlung","malaria","blood-cells-mlops","neural-compression","nucleus-unet","movie-recommender","llm-search-handbook"].map((s) => [s, `/work/${s}.webp`]));
+export const banners: Record<string, string> = Object.fromEntries(["dealcircle","telescopeml","knowledge-graphs-book","beatlens","lime-ecg","phd-bremsstrahlung","malaria","blood-cells-mlops","neural-compression","nucleus-unet","movie-recommender","llm-search-handbook","agentic-system-design"].map((s) => [s, `/work/${s}.webp`]));
 banners["dealcircle"] = "/work/dealcircle.svg";
 banners["telescopeml"] = "/work/telescopeml.svg";
 
@@ -183,22 +183,6 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: "lime-ecg",
-    kicker: "Explainable AI · Time series · Open source",
-    title: "LIME for time series: explaining an ECG classifier",
-    summary:
-      "LIME was built for images and tables. I adapted it to 1-D physiological signals so a CNN's diagnosis of a 12-lead ECG can be traced back to the beats and intervals that produced it.",
-    problem:
-      "Image LIME perturbs super-pixels; a signal has no such regions, and perturbing individual samples produces physiologically meaningless variants.",
-    approach: [
-      "Segment-based perturbation scheme and surrogate fitting designed for 1-D signals.",
-      "Applied to a CNN trained on PhysioNet / CinC 2020 12-lead ECGs (AF, VT/VF, MI, sinus rhythm).",
-    ],
-    result: "Released as a reusable open-source method.",
-    stack: ["Python", "LIME", "CNN", "SciPy"],
-    links: [{ label: "GitHub", href: "https://github.com/mdhabibi/LIME-for-Time-Series" }],
-  },
-  {
     slug: "phd-bremsstrahlung",
     featured: true,
     kicker: "Ph.D. · Scientific ML & data science · HPC",
@@ -225,59 +209,142 @@ export const projects: Project[] = [
     ],
   },
   {
+    slug: "lime-ecg",
+    kicker: "Explainable AI · Time series · Open source",
+    title: "LIME for time series: explaining a 12-lead ECG classifier",
+    summary:
+      "LIME was built for images and tables. I adapted it to 1-D physiological signals so a CNN's diagnosis of a 12-lead ECG can be traced back to the beats and intervals that produced it, and released the method as a reusable package.",
+    problem:
+      "Image LIME perturbs super-pixels, and a signal has no such regions. Perturbing individual samples creates physiologically meaningless variants far from the data manifold, so the surrogate ends up explaining noise. The perturbation units had to respect the structure of the signal.",
+    approach: [
+      "Data: PhysioNet / Computing in Cardiology Challenge 2020, with 12-lead ECGs from the CPSC, INCART, PTB, PTB-XL and Georgia databases. Classes: normal sinus rhythm, atrial fibrillation, ventricular tachycardia/fibrillation and myocardial infarction.",
+      "Model: a 1-D CNN classifier trained on the pre-processed records.",
+      "Segment the signal into fixed-width windows, the time-series analogue of super-pixels.",
+      "Perturb by switching windows off and replacing each with its own mean voltage, which keeps variants smooth and plausible.",
+      "Score every variant with the CNN, weight variants by cosine similarity to the original, fit a weighted linear surrogate, and rank windows by coefficient.",
+      "Packaged as modules (preprocessing, training, LIME explanation, visualisation) with an end-to-end notebook under GPL-3.0.",
+    ],
+    result:
+      "Explanations concentrate on clinically meaningful regions, such as the QRS complex and the ST segment that follows it. The same segment-and-perturb idea later became LIMEXplainer in TelescopeML, with wavelength bands in place of time windows.",
+    stack: ["Python", "1-D CNN", "LIME", "scikit-learn", "NumPy · SciPy", "Time series"],
+    links: [
+      { label: "GitHub", href: "https://github.com/mdhabibi/LIME-for-Time-Series" },
+      { label: "Challenge paper", href: "https://iopscience.iop.org/article/10.1088/1361-6579/abc960" },
+    ],
+  },
+  {
     slug: "malaria",
-    kicker: "Computer vision · XAI",
+    kicker: "Computer vision · Explainable AI · Medical imaging",
     title: "Auditable malaria-cell CNN",
-    summary: "Custom CNN on 27,558 NIH smear images with LIME and CAM explanations.",
-    problem: "Manual microscopy is slow and examiner-dependent.",
-    approach: ["8-layer, 818k-parameter CNN trained from scratch; LIME + class-activation maps."],
-    result: "96.2% test accuracy · AUC 0.99.",
-    stack: ["TensorFlow", "LIME", "CAM"],
+    summary:
+      "A CNN trained from scratch to separate parasitised from healthy red-blood-cell images, then opened up with LIME and class-activation maps so a clinician can see where in the cell the model is looking before trusting it.",
+    problem:
+      "Manual microscopy is still the reference method for malaria diagnosis, and it is slow, tiring and depends on the examiner's experience. A pre-screening classifier only helps if its decisions can be checked, so accuracy and interpretability were treated as equally important deliverables.",
+    approach: [
+      "Data: NIH / NLM Malaria Cell Images, 27,558 thin-smear images (about 800 MB), exactly balanced at 13,779 per class, with data augmentation.",
+      "Architecture: four blocks of two Conv2D layers, each closed by batch normalisation and dropout, feeding a Dense(512) → Dense(256) → softmax head. 818k parameters (about 3.1 MB), small enough to train on a laptop.",
+      "Training: early stopping on validation loss to pick the checkpoint and resist over-fitting.",
+      "Explainability: LIME for superpixel-level evidence and class-activation mapping (CAM) for spatial attention, two complementary views of every prediction.",
+    ],
+    result: "96.19% test accuracy on 5,512 held-out images and AUC 0.99, with visual explanations that highlight the parasite regions inside infected cells.",
+    stack: ["TensorFlow / Keras", "CNN", "Data augmentation", "Batch norm · Dropout", "LIME", "CAM"],
     links: [{ label: "GitHub", href: "https://github.com/mdhabibi/CNN-Predictor-for-Malaria_Cells-LIME-CAM" }],
   },
   {
     slug: "blood-cells-mlops",
-    kicker: "MLOps · Computer vision",
-    title: "Blood-cell classifier, end to end",
-    summary: "Eight-class VGG16 classifier productionised as FastAPI microservices with MLflow, DVC, Airflow and Kubernetes.",
-    problem: "Turn a notebook model into a service a lab could actually run.",
-    approach: ["U-Net + GrabCut segmentation; transfer learning; three containerised microservices; monitoring with Prometheus/Grafana."],
-    result: "94% accuracy on 8 cell types · segmented dataset published on Kaggle.",
-    stack: ["FastAPI", "Docker", "Kubernetes", "MLflow", "Airflow"],
-    links: [{ label: "GitHub", href: "https://github.com/DataScientest-Studio/apr24_bds_int_blood_cells" }],
+    kicker: "Deep learning · Computer vision · MLOps",
+    title: "Blood-cell classifier: from EDA to Kubernetes",
+    summary:
+      "A complete pipeline for classifying peripheral blood cells into eight types, covering EDA, outlier detection, U-Net and GrabCut segmentation, and VGG16 transfer learning. It is productionised as FastAPI microservices with MLflow, DVC, Airflow, Kubernetes and Terraform.",
+    problem:
+      "Differential blood counts are routine but labour-intensive, and some white-cell types differ only subtly. The questions were how much of each image actually carries signal, whether the rest could be discarded to make training and storage cheaper, and how to turn the notebook model into a service a lab could run.",
+    approach: [
+      "Data science: 17,092 images from Hospital Clínic de Barcelona across 8 classes. Extracted morphological features (cell area, perimeter, circularity) to understand the classes and flag outliers.",
+      "Segmentation: compared a U-Net trained on 350 hand-annotated masks with an improved GrabCut initialisation. Masking the background and dropping outliers cut the corpus from 868 MB to 593 MB (−31.7%).",
+      "Model: VGG16 with frozen ImageNet weights, GAP, Dense, Dropout and softmax(8) for transfer learning on the masked images.",
+      "Serving: three FastAPI microservices (auth, preprocessing, prediction) behind a Streamlit/Flask frontend. The same GrabCut preprocessing runs at inference to avoid training/serving skew.",
+      "MLOps: MLflow tracking with metric-gated model promotion, DVC data versioning, Airflow training pipeline, Jenkins CI with pytest, Docker, Kubernetes and Helm, Prometheus and Grafana monitoring, and Terraform for AWS (EKS, S3, ECR).",
+    ],
+    result:
+      "94% accuracy across eight cell types, a 31.7% smaller dataset and 14 minutes faster training, with the segmented dataset published on Kaggle. The local Kubernetes deployment was demonstrated end to end, and the AWS roll-out was fully defined in Terraform (DataScientest capstone, team of three).",
+    stack: ["VGG16 · transfer learning", "U-Net", "OpenCV", "FastAPI", "Docker · Kubernetes", "MLflow · DVC", "Airflow", "Terraform · AWS"],
+    links: [
+      { label: "GitHub", href: "https://github.com/DataScientest-Studio/apr24_bds_int_blood_cells" },
+      { label: "Kaggle dataset", href: "https://www.kaggle.com/datasets/mahdihabibi/segmented-peripheral-blood-cells-using-opencv" },
+    ],
   },
   {
     slug: "nucleus-unet",
-    kicker: "Segmentation",
+    kicker: "Deep learning · Semantic segmentation",
     title: "Nucleus segmentation with U-Net",
-    summary: "Pixel-accurate nucleus masks on the 2018 Data Science Bowl, tuned with Hyperband on CPU.",
-    problem: "Nuclei are small, numerous and touching.",
-    approach: ["U-Net with skip connections; Keras Tuner Hyperband."],
-    result: "≈96% validation pixel accuracy.",
-    stack: ["Keras", "Keras Tuner"],
-    links: [{ label: "GitHub", href: "https://github.com/mdhabibi/Automated-Cell-Semantic-Segmentation-with-UNet" }],
+    summary:
+      "A U-Net trained on the 2018 Data Science Bowl corpus that produces pixel-accurate nucleus masks across very different stains and magnifications, tuned with Hyperband instead of a GPU cluster.",
+    problem:
+      "Finding every nucleus is the first step of most biological image-analysis pipelines and is still often done by hand. Nuclei are small, numerous and touching, so the model must keep fine spatial detail while understanding context.",
+    approach: [
+      "Architecture: a U-Net encoder–decoder. The contracting path captures context, the expanding path restores resolution, and skip connections carry high-resolution features across.",
+      "Hyperparameter optimisation: Keras Tuner Hyperband over depth, filters, dropout and learning rate. Many configurations get a few epochs, and only the promising ones are promoted.",
+      "Evaluation: pixel accuracy, binary cross-entropy and train/validation curves, plus qualitative checks of the masks on unseen samples.",
+    ],
+    result:
+      "About 96% validation pixel accuracy and about 0.09 validation loss after 15 epochs, with closely tracking curves and no sign of over-fitting. Residual errors sit at the boundaries of touching nuclei, the natural next step for instance-aware post-processing such as watershed.",
+    stack: ["Keras / TensorFlow", "U-Net", "Keras Tuner · Hyperband", "Semantic segmentation", "OpenCV"],
+    links: [
+      { label: "GitHub", href: "https://github.com/mdhabibi/Automated-Cell-Semantic-Segmentation-with-UNet" },
+      { label: "Dataset", href: "https://www.kaggle.com/c/data-science-bowl-2018" },
+    ],
   },
   {
     slug: "movie-recommender",
-    kicker: "Recommender systems",
+    kicker: "Recommender systems · Methods study",
     title: "Three ways to recommend a movie",
-    summary: "Collaborative, content-based and Bayesian-weighted ranking, side by side on MovieLens and TMDB.",
-    problem: "Understand where each recommender family shines and fails cold.",
-    approach: ["User/item CF · TF-IDF similarity · Bayesian average ranking."],
-    result: "Foundations later applied to production deal matching.",
-    stack: ["pandas", "SciPy", "scikit-learn"],
+    summary:
+      "Collaborative filtering, content-based filtering and Bayesian-weighted ranking, implemented side by side on public movie data to learn where each shines, where it fails cold and how they combine. It was the groundwork for production deal matching.",
+    problem:
+      "Every recommender family trades off cold start, diversity and explainability differently. Building them from scratch on the same data makes those trade-offs concrete before choosing a hybrid in production.",
+    approach: [
+      "Collaborative filtering: a sparse user × item matrix from MovieLens ratings, neighbours found with cosine similarity and k-NN, and ratings predicted as similarity-weighted averages. It discovers taste without metadata but suffers from cold start.",
+      "Content-based filtering: TF-IDF on plot overviews plus genre, cast and crew features from TMDB 5000, ranked by cosine similarity. It works from day one and can explain why, but it over-specialises.",
+      "Bayesian weighted rating: shrinks each item's mean rating toward the global mean in proportion to vote count, so a 9.5 from three voters doesn't beat an 8.7 from fifty thousand.",
+    ],
+    result:
+      "A clear map of when to use each family and how to compose them, applied directly to the hybrid content-based and collaborative matching I build at DealCircle.",
+    stack: ["pandas", "SciPy sparse", "scikit-learn", "TF-IDF", "k-NN · cosine similarity", "Bayesian ranking"],
     links: [{ label: "GitHub", href: "https://github.com/mdhabibi/movie-recommendation-systems" }],
   },
   {
     slug: "llm-search-handbook",
-    kicker: "Teaching · Semantic search",
-    title: "Search Semantically — LLM & search handbook",
-    summary: "A 14-chapter open course from keyword matching to embeddings, vector databases, re-ranking and RAG, with runnable notebooks.",
-    problem: "Most search tutorials skip evaluation and depend on paid APIs.",
-    approach: ["Intuition + notebook per chapter; open-source toolkit, no API keys."],
-    result: "Website + 69-page e-book.",
-    stack: ["Python", "Embeddings", "Vector DBs", "RAG"],
+    kicker: "LLMs · Semantic search · RAG",
+    title: "Search Semantically: an LLM and semantic-search course",
+    summary:
+      "A free 14-chapter course from keyword matching to embeddings, dense retrieval, vector databases, re-ranking, evaluation and RAG. Every chapter pairs intuition with a runnable notebook, and the whole course ships as a website and a 69-page e-book.",
+    problem:
+      "Most search tutorials jump straight to a vector database and an API key, skipping why lexical search fails, how to evaluate retrieval and when re-ranking pays off. Those are exactly the decisions that matter in production RAG.",
+    approach: [
+      "Curriculum: keyword search and BM25 → embeddings → dense retrieval → vector databases → re-ranking → evaluation → retrieval-augmented generation.",
+      "Hands-on: a runnable notebook per chapter, built entirely on the open-source toolkit with no API keys.",
+      "Delivery: a searchable MkDocs website, a 69-page e-book and CI-tested notebooks.",
+    ],
+    result: "An open course that mirrors the hybrid retrieval and RAG stack I run in production.",
+    stack: ["Python", "BM25", "Embeddings", "Vector databases", "Re-ranking", "RAG", "MkDocs · CI"],
     links: [{ label: "GitHub", href: "https://github.com/mdhabibi/llm-search-handbook" }],
+  },
+  {
+    slug: "agentic-system-design",
+    kicker: "AI agents · System design",
+    title: "Designing a production-grade agentic system",
+    summary:
+      "A step-by-step architecture guide to real agentic AI systems: LLM gateway, orchestrator, sub-agents, tool registry, memory and retrieval, input/output guardrails and observability.",
+    problem:
+      "Agent demos are easy and production agents are not. Teams need to know which components they actually need, where each one lives, and what breaks without it.",
+    approach: [
+      "Each component is introduced only after the problem it solves, and tagged by how badly you'll miss it in production.",
+      "Covers the LLM gateway, orchestrator and sub-agents, tool registry, memory and retrieval, guardrails on input and output, and observability.",
+      "About a 45-minute read, published as HTML and PDF.",
+    ],
+    result: "A practical reference that reflects the multi-agent enrichment platform I lead at DealCircle.",
+    stack: ["LLM agents", "Orchestration", "Tool use", "Memory · RAG", "Guardrails", "Observability"],
+    links: [{ label: "GitHub", href: "https://github.com/mdhabibi/agentic-system-design" }],
   },
 ];
 

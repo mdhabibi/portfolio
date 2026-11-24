@@ -15,7 +15,7 @@ export function ProjectCard({ p, img, compact }: { p: Project; img: boolean; com
       <div className="body">
         <div className="mono">{p.kicker}</div>
         <Link href={`/work/${p.slug}/`}><h3>{p.title}</h3></Link>
-        <p>{compact ? p.result : p.summary}</p>
+        <p className={compact ? "clamp" : ""}>{p.summary}</p>
         <div className="links">
           <Link href={`/work/${p.slug}/`} style={{ color: "var(--blue)" }}>Case study →</Link>
           {p.links.slice(0, 2).map((l) => <a key={l.href} href={l.href} target="_blank" rel="noreferrer">{l.label} ↗</a>)}
