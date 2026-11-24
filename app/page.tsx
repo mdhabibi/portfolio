@@ -73,10 +73,10 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <div className="grid g3" style={{ marginTop: 48 }}>
+          <div className="grid g4" style={{ marginTop: 48 }}>
             {education.map((ed) => (
               <div className="cell" key={ed.degree}>
-                <div className="mono">{ed.when}</div><h3 style={{ fontSize: 18 }}>{ed.degree}</h3><p>{ed.school}{ed.note && ` · ${ed.note}`}</p>
+                <div className="mono">{ed.when}</div><h3 style={{ fontSize: 18 }}>{ed.degree}</h3><p>{ed.school}{ed.note && ` · ${ed.note}`}</p>{"href" in ed && ed.href && <a className="arrow" href={ed.href as string} target="_blank" rel="noreferrer">View ↗</a>}
               </div>
             ))}
           </div>

@@ -423,6 +423,7 @@ export const experience = [
 export const education = [
   { degree: "Data Science & ML Engineering Diploma", school: "Université Paris 1 Panthéon-Sorbonne · DataScientest", when: "2024", note: "400-hour programme + MLOps; defence graded A+" },
   { degree: "Ph.D. in Computational Physics", school: "Heinrich Heine Universität Düsseldorf", when: "2019 — 2023", note: "Magna cum laude" },
+  { degree: "IOP Trusted Reviewer", school: "IOP Publishing · peer reviewer for physics journals", when: "Recognition", note: "", href: "https://www.linkedin.com/feed/update/urn:li:activity:7401672983783686144/" },
   { degree: "AWS Certified Cloud Practitioner", school: "Amazon Web Services", when: "Certification", note: "" },
 ];
 
@@ -461,9 +462,9 @@ export const publications = [
 
 // Newsletter editions and other writing. Only entries with `href` are shown.
 export const writing: { title: string; kind: string; topic?: string; href?: string }[] = [
-  { title: "You Deleted the Poisoned Memory. Your Assistant Still Remembers.", kind: "Edition", topic: "Agent memory · Unlearning", href: "https://www.linkedin.com/pulse/you-deleted-poisoned-memory-your-assistant-still-remembers-habibi-5z25e" },
+  { title: "You Deleted the Poisoned Memory. Your Assistant Still Remembers It.", kind: "Edition", topic: "Agent memory · Unlearning", href: "https://www.linkedin.com/pulse/you-deleted-poisoned-memory-your-assistant-still-remembers-habibi-5z25e" },
   { title: "A → B → C Isn't a Fact: When Multi-Hop Paths Lie", kind: "Edition", topic: "Knowledge graphs · GraphRAG", href: "https://www.linkedin.com/pulse/b-c-isnt-fact-when-multi-hop-paths-lie-dr-mahdi-habibi-fysre" },
-  { title: "Two Agents, One Graph, Zero New Evidence", kind: "Edition", topic: "Multi-agent systems", href: "https://www.linkedin.com/pulse/two-agents-one-graph-zero-new-evidence-circular-shared-habibi-aswwe" },
+  { title: "Two Agents, One Graph, Zero New Evidence: Circular Corroboration in Multi-Agent Shared Memory", kind: "Edition", topic: "Multi-agent systems", href: "https://www.linkedin.com/pulse/two-agents-one-graph-zero-new-evidence-circular-shared-habibi-aswwe" },
   { title: "BeatLens demo", kind: "Video", topic: "Time-series LLMs · XAI", href: "https://youtu.be/QsP-ktHCz0s" },
 ];
 
