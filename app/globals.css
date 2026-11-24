@@ -139,3 +139,8 @@ footer .wrap { display: flex; justify-content: space-between; }
 @media (max-width: 960px) { .cards { grid-template-columns: repeat(2, minmax(0,1fr)); } }
 @media (max-width: 620px) { .cards { grid-template-columns: 1fr; } }
 .card p.clamp { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+
+.newsletter { display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; padding: 32px; border: 1px solid var(--line); border-radius: 14px; background: radial-gradient(circle at 0% 0%, rgba(82,168,255,.14), transparent 60%), var(--bg2); }
+.newsletter h3 { font-size: 24px; font-weight: 600; letter-spacing: -.02em; margin: 8px 0 6px; }
+.newsletter p { color: var(--muted); max-width: 620px; }
+.btn.libtn { background: #0A66C2; border-color: #0A66C2; color: #fff; border-radius: 999px; }

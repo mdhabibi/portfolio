@@ -27,6 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <li className="hide"><Link href="/#work">Work</Link></li>
               <li className="hide"><Link href="/#experience">Experience</Link></li>
               <li className="hide"><Link href="/#publications">Publications</Link></li>
+              <li className="hide"><Link href="/#writing">Writing</Link></li>
               <li><Link href="/#contact">Contact</Link></li>
               <li><ThemeToggle /></li>
             </ul>

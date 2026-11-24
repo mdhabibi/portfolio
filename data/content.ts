@@ -16,6 +16,11 @@ export const profile = {
     Scholar: "https://scholar.google.com/citations?hl=en&user=OCl6adIAAAAJ",
     Kaggle: "https://www.kaggle.com/mahdihabibi",
   } as Record<string, string>,
+  newsletter: {
+    name: "LinkedIn newsletter",
+    blurb: "Production-focused articles on retrieval, RAG, recommender systems, knowledge graphs and explainable AI.",
+    href: "https://www.linkedin.com/build-relation/newsletter-follow?entityUrn=7529523751579873280",
+  },
   stats: [
     { value: "10+", label: "years in data & ML" },
     { value: "Ph.D.", label: "computational physics" },

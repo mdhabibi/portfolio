@@ -95,20 +95,28 @@ export default function Home() {
         </div>
       </section>
 
-      {liveWriting.length > 0 && (
-        <section className="block" id="writing">
-          <div className="wrap">
-            <div className="head"><div><div className="mono">Writing &amp; films</div><h2>Explaining production AI</h2></div></div>
-            <div className="grid g3">
+      <section className="block" id="writing">
+        <div className="wrap">
+          <div className="head"><div><div className="mono">Writing &amp; films</div><h2>Explaining production AI</h2></div></div>
+          <div className="newsletter">
+            <div>
+              <div className="mono">{profile.newsletter.name}</div>
+              <h3>Get new articles in your LinkedIn feed</h3>
+              <p>{profile.newsletter.blurb}</p>
+            </div>
+            <a className="btn libtn" href={profile.newsletter.href} target="_blank" rel="noreferrer">Subscribe on LinkedIn ↗</a>
+          </div>
+          {liveWriting.length > 0 && (
+            <div className="cards" style={{ marginTop: 16 }}>
               {liveWriting.map((w) => (
-                <a className="cell" href={w.href} target="_blank" rel="noreferrer" key={w.title}>
-                  <div className="mono">{w.kind}</div><h3>{w.title}</h3><span className="arrow">Open ↗</span>
+                <a className="card" href={w.href} target="_blank" rel="noreferrer" key={w.title}>
+                  <div className="body"><div className="mono">{w.kind}</div><h3>{w.title}</h3><span className="go">Open ↗</span></div>
                 </a>
               ))}
             </div>
-          </div>
-        </section>
-      )}
+          )}
+        </div>
+      </section>
 
       <section className="block">
         <div className="wrap">
@@ -129,6 +137,7 @@ export default function Home() {
           <div className="cta">
             <a className="btn primary" href={`mailto:${profile.email}`}>{profile.email}</a>
             <a className="btn" href={profile.links.LinkedIn} target="_blank" rel="noreferrer">LinkedIn ↗</a>
+            <a className="btn" href={profile.newsletter.href} target="_blank" rel="noreferrer">Subscribe to my newsletter ↗</a>
           </div>
         </div>
       </section>
