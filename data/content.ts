@@ -57,7 +57,7 @@ export type Project = {
 };
 
 // Banner images live in public/work/<slug>.webp; projects without one get a typographic banner.
-export const banners: Record<string, string> = Object.fromEntries(["dealcircle","telescopeml","knowledge-graphs-book","lime-ecg","phd-bremsstrahlung","malaria","blood-cells-mlops","neural-compression","nucleus-unet","movie-recommender","llm-search-handbook"].map((s) => [s, `/work/${s}.webp`]));
+export const banners: Record<string, string> = Object.fromEntries(["dealcircle","telescopeml","knowledge-graphs-book","beatlens","lime-ecg","phd-bremsstrahlung","malaria","blood-cells-mlops","neural-compression","nucleus-unet","movie-recommender","llm-search-handbook"].map((s) => [s, `/work/${s}.webp`]));
 banners["dealcircle"] = "/work/dealcircle.svg";
 banners["telescopeml"] = "/work/telescopeml.svg";
 
@@ -156,6 +156,33 @@ export const projects: Project[] = [
     links: [{ label: "GitHub", href: "https://github.com/mdhabibi/Neural-Compression-with-Autoencoders" }],
   },
   {
+    slug: "beatlens",
+    featured: true,
+    kicker: "Time-series LLMs · LoRA fine-tuning · XAI",
+    title: "BeatLens: finding the T-wave peak with time-series LLMs",
+    summary:
+      "A research workbench, built with Dr. Sdjad Sadeghi for the TimeNet Hackathon 2026, that locates the T-wave peak in a two-channel ECG beat. It fine-tunes and probes a time-series language model from Hugging Face, benchmarks it against waveform baselines, and explains every estimate.",
+    problem:
+      "Given a known R-peak, where does the T wave peak? Precise T-peak timing underpins ECG interval analysis. The open question was whether a time-series LLM (OpenTSLM) actually reads the waveform, or only learns timing priors, and how it compares with simpler waveform models across databases.",
+    approach: [
+      "LoRA fine-tuning: fine-tuned OpenTSLM SoftPrompt (Llama 3.2 1B, Hugging Face checkpoint OpenTSLM/llama-3.2-1b-ecg-sp) with LoRA on a Nebius H100 to generate the T-peak sample index, with integer-only prompts and greedy decoding.",
+      "Rigorous controls: a matched waveform-swap test showed MAE unchanged at 64.5 ms after swapping waveforms, so waveform dependence of the generative model stayed unverified. We reported that honestly rather than claiming a win.",
+      "Representation probing: a numerical readout over frozen OpenTSLM ECG patch features plus local raw waveform samples, with separate kernels per input and their product capturing interactions, trained on QTDB beat windows.",
+      "Benchmarks against a training-set timing prior and a waveform-only candidate ranker, with cross-database development panels on LUDB and MIT-BIH (separate manual T-peak labels) and a beat-level error audit.",
+      "Explainable AI: Temporal LIME (replace short ECG segments, fit a local surrogate of the change in predicted time) and Integrated Gradients (attribute the timing shift from a reference to the input), shown in an interactive explorer.",
+      "Engineering: Python/PyTorch package managed with uv, Streamlit workbench, live web explorer, and a TimeNet connector that maps QTDB records into sparse localisation tasks (validated with TimeNet 0.12.0).",
+    ],
+    result:
+      "On LUDB (1,603 windows) the OpenTSLM interaction-kernel readout reached 18.60 ms MAE against 30.92 ms for the timing prior, and the waveform-only ranker reached 11.08 ms. On the MIT-BIH pilot (2,112 windows) the OpenTSLM readout made the fewest large misses (453 errors over 80 ms, against 571). Research use only; not clinically validated.",
+    stack: ["Hugging Face", "OpenTSLM", "Llama 3.2 1B", "LoRA", "PyTorch", "Nebius H100", "Integrated Gradients", "LIME", "Streamlit"],
+    links: [
+      { label: "Live explorer", href: "https://beatlens.vercel.app" },
+      { label: "GitHub", href: "https://github.com/mdhabibi/BeatLens" },
+      { label: "Demo video", href: "https://youtu.be/QsP-ktHCz0s" },
+      { label: "Experiment notes", href: "https://github.com/mdhabibi/BeatLens/blob/main/docs/opentslm-feasibility.md" },
+    ],
+  },
+  {
     slug: "lime-ecg",
     kicker: "Explainable AI · Time series · Open source",
     title: "LIME for time series: explaining an ECG classifier",
@@ -170,22 +197,6 @@ export const projects: Project[] = [
     result: "Released as a reusable open-source method.",
     stack: ["Python", "LIME", "CNN", "SciPy"],
     links: [{ label: "GitHub", href: "https://github.com/mdhabibi/LIME-for-Time-Series" }],
-  },
-  {
-    slug: "beatlens",
-    featured: true,
-    kicker: "Hackathon · Time-series LLMs",
-    title: "BeatLens — ECG T-peak timing with OpenTSLM",
-    summary:
-      "A TimeNet Hackathon 2026 project, built with Dr. Sdjad Sadeghi, applying time-series language models to ECG T-peak timing.",
-    problem: "Locating T-peaks precisely is key to ECG interval analysis and hard for general-purpose models.",
-    approach: ["Built on OpenTSLM; demo film walks through the pipeline and results."],
-    result: "Open repository and demo video.",
-    stack: ["OpenTSLM", "Python", "PyTorch"],
-    links: [
-      { label: "GitHub", href: "https://github.com/mdhabibi/BeatLens" },
-      { label: "Demo video", href: "https://youtu.be/QsP-ktHCz0s" },
-    ],
   },
   {
     slug: "phd-bremsstrahlung",
