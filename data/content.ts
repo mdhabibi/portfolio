@@ -20,7 +20,7 @@ export const profile = {
     { value: "10+", label: "years in data & ML" },
     { value: "Ph.D.", label: "computational physics" },
     { value: "JOSS", label: "open-source co-author" },
-    { value: "173 pp", label: "book on knowledge graphs" },
+    { value: "179 pp", label: "book on knowledge graphs" },
   ],
 };
 
@@ -57,7 +57,7 @@ export type Project = {
 };
 
 // Banner images live in public/work/<slug>.webp; projects without one get a typographic banner.
-export const banners: Record<string, string> = Object.fromEntries(["dealcircle","telescopeml","lime-ecg","phd-bremsstrahlung","malaria","blood-cells-mlops","neural-compression","nucleus-unet","movie-recommender","llm-search-handbook"].map((s) => [s, `/work/${s}.webp`]));
+export const banners: Record<string, string> = Object.fromEntries(["dealcircle","telescopeml","knowledge-graphs-book","lime-ecg","phd-bremsstrahlung","malaria","blood-cells-mlops","neural-compression","nucleus-unet","movie-recommender","llm-search-handbook"].map((s) => [s, `/work/${s}.webp`]));
 banners["dealcircle"] = "/work/dealcircle.svg";
 banners["telescopeml"] = "/work/telescopeml.svg";
 
@@ -112,19 +112,27 @@ export const projects: Project[] = [
   {
     slug: "knowledge-graphs-book",
     featured: true,
-    kicker: "Book · Knowledge graphs",
+    kicker: "Book · Open access · v0.2.1",
     title: "Knowledge Graphs: Semantic Graphs and Property Graphs",
     summary:
-      "A 173-page illustrated guide that teaches RDF, RDFS, OWL, SPARQL and SHACL side by side with Neo4j and Cypher — through to governance, recommendations and GraphRAG.",
+      "One catalog, two graph worlds. A 179-page illustrated guide that takes readers from graph fundamentals through RDF, RDFS, OWL, SPARQL and SHACL alongside Neo4j and Cypher, and on to architecture, governance and graph RAG.",
     problem:
-      "Practitioners usually learn either the semantic-web stack or property graphs, and struggle to choose or combine them in real systems.",
+      "Practitioners usually learn either the semantic-web stack or labelled property graphs, rarely both, so they struggle to choose between them or combine them in real systems. Most material also stops at syntax and never reaches architecture, operations or recommendation use cases.",
     approach: [
-      "Worked examples, exercises, review questions and a glossary in every part.",
-      "Companion repository with editable sources, runnable labs and automated checks.",
+      "One running example throughout: a synthetic course-recommendation catalog, modelled in both worlds to compare identity, relationships, constraints, inference and events side by side.",
+      "Twelve parts: Foundations · RDF and semantic graphs · Querying RDF · Property graphs and Cypher · Modelling and interoperability · Strengths, tradeoffs and decisions · Performance and operations · Graph RAG and analytics · Applied mastery · Reproducible lab · Glossary · References.",
+      "Teaching design: each term is introduced by the question it answers, each technical part has learning goals and a self-check, and baseline data, variations, extensions and pseudocode are labelled separately.",
+      "Companion repository with editable sources, a runnable lab, automated checks and published validation evidence.",
     ],
-    result: "Public edition released on Zenodo with an open companion repository.",
-    stack: ["RDF", "OWL", "SPARQL", "SHACL", "Neo4j", "Cypher"],
-    links: [{ label: "Book (Zenodo)", href: "https://doi.org/10.5281/zenodo.24209667" }],
+    result:
+      "Version 0.2.1 published on Zenodo (23 Nov 2026) as an illustrated public review edition: 179 pages, 18 figures, 183 explained review questions and 75 glossary entries. Text under CC BY 4.0, code under MIT.",
+    stack: ["RDF", "OWL", "SPARQL", "SHACL", "Neo4j", "Cypher", "Graph RAG"],
+    links: [
+      { label: "Read the PDF", href: "https://github.com/mdhabibi/one-graph-two-worlds/blob/main/dist/knowledge-graphs-tutorial.pdf" },
+      { label: "Zenodo (v0.2.1)", href: "https://doi.org/10.5281/zenodo.24483542" },
+      { label: "Companion repo & lab", href: "https://github.com/mdhabibi/one-graph-two-worlds" },
+      { label: "Browse chapters", href: "https://github.com/mdhabibi/one-graph-two-worlds/blob/main/book/index.md" },
+    ],
   },
   {
     slug: "lime-ecg",
@@ -324,8 +332,8 @@ export const publications = [
   {
     title: "Knowledge Graphs: Semantic Graphs and Property Graphs",
     authors: "M. Habibi",
-    venue: "Book, Zenodo (2026)",
-    href: "https://doi.org/10.5281/zenodo.24209667",
+    venue: "Book, public review edition v0.2.1, Zenodo (2026) · CC BY 4.0",
+    href: "https://doi.org/10.5281/zenodo.24483542",
   },
   {
     title: "TelescopeML — I. An End-to-End Python Package for Interpreting Telescope Datasets through Training Machine Learning Models, Generating Statistical Reports, and Visualizing Results",
