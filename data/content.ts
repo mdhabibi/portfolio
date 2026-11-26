@@ -62,7 +62,7 @@ export type Project = {
 };
 
 // Banner images live in public/work/<slug>.webp; projects without one get a typographic banner.
-export const banners: Record<string, string> = Object.fromEntries(["dealcircle","telescopeml","knowledge-graphs-book","beatlens","lime-ecg","phd-bremsstrahlung","malaria","blood-cells-mlops","neural-compression","nucleus-unet","movie-recommender","llm-search-handbook","agentic-system-design"].map((s) => [s, `/work/${s}.webp`]));
+export const banners: Record<string, string> = Object.fromEntries(["dealcircle","postloom","telescopeml","knowledge-graphs-book","beatlens","lime-ecg","phd-bremsstrahlung","malaria","blood-cells-mlops","neural-compression","nucleus-unet","movie-recommender","llm-search-handbook","agentic-system-design"].map((s) => [s, `/work/${s}.webp`]));
 banners["dealcircle"] = "/work/dealcircle.svg";
 banners["telescopeml"] = "/work/telescopeml.svg";
 
@@ -87,6 +87,32 @@ export const projects: Project[] = [
       "Richer company insights for deal teams, more efficient due diligence, and relationship-aware matching that surfaces the right buyers for each opportunity.",
     stack: ["Neo4j", "GraphRAG", "Elasticsearch", "FAISS", "LangGraph", "LangChain", "Python", "Machine learning"],
     links: [{ label: "DealCircle", href: "https://www.dealcircle.com/" }],
+  },
+  {
+    slug: "postloom",
+    featured: true,
+    kicker: "Product launch · Local-first AI · Knowledge graph",
+    title: "postloom: your LinkedIn, remembered",
+    summary:
+      "A free, local-first app that turns your LinkedIn articles, posts and every comment under them into a private, searchable knowledge graph. It answers questions with citations, shows who engages with your work, and drafts replies in your voice, using any AI model or none.",
+    problem:
+      "On LinkedIn, the best conversations happen in the comments and then get buried in the feed within a week. I built postloom after losing a great question under one of my own articles. It had to be private, trivially installable by non-developers and trustworthy: no cloud, no scraping, and no AI answers it can't back up.",
+    approach: [
+      "Ingestion: you paste in a post or article and its comment section, and LLM extractors turn them into structured nodes: articles, posts, comments, people, topics, series and entities.",
+      "Knowledge graph with provenance: a typed schema (announces, belongs_to, commented_on, replied_to, authored, related_to, links_to, mentions) enforced in the domain layer. Links read from your own text are facts, AI-suggested links stay suggestions until you accept them, and history is kept instead of deleted.",
+      "Hybrid retrieval and grounded chat: SQLite FTS5 keyword search plus local fastembed embeddings with cosine similarity. Chat answers only from your own content, cites the passage behind every claim and says \"not found\" instead of guessing.",
+      "Audience and reply workflow: every commenter becomes a person node, unanswered comments are surfaced, and reply drafts are grounded in what you actually wrote.",
+      "Model-agnostic and cost-aware: Gemini, Claude, OpenAI, OpenRouter, any OpenAI-compatible server or free local models with Ollama, with fallback models, a per-task usage ledger and an optional monthly budget cap.",
+      "Engineering: a hexagonal (clean) architecture with ports and adapters, layering enforced by tests and contract tests for every adapter. The source of truth is a plain-Markdown Obsidian vault that the index can be rebuilt from. Exports to Neo4j, Gephi and RDF, a one-line installer for Mac, Windows and Linux via uv, and CI.",
+    ],
+    result:
+      "Version 0.1.0 launched in November 2026 as a free download with a website, a 2-minute video tour and public source code. No account, no telemetry, and it never logs into or scrapes LinkedIn.",
+    stack: ["Python", "LLMs (any provider · Ollama)", "RAG with citations", "fastembed", "SQLite FTS5", "Knowledge graph", "Starlette", "Obsidian Markdown", "Neo4j · RDF export"],
+    links: [
+      { label: "Website", href: "https://postloom-app.vercel.app/" },
+      { label: "Video tour", href: "https://postloom-app.vercel.app/tour" },
+      { label: "GitHub", href: "https://github.com/mdhabibi/postloom" },
+    ],
   },
   {
     slug: "telescopeml",
