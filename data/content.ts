@@ -167,7 +167,6 @@ export const projects: Project[] = [
   },
   {
     slug: "neural-compression",
-    featured: true,
     kicker: "Representation learning · Data compression",
     title: "Neural compression with autoencoders",
     summary:
